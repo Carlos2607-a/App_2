@@ -40,13 +40,13 @@ mapeo_opciones = {
 }
 
 if opcion == "Delanteros":
-    opciones = ["Goles", "Jugado con mas faltas recibidas", "Asistencias"]
+    opciones = ["Goles", "Jugador con mas faltas recibidas", "Asistencias"]
 elif opcion == "Mediocampista":
     opciones = ["Asistencias", "Oportunidades de gol creadas", "Entradas"]
 elif opcion == "Defensas":
     opciones = ["Entradas", "Intercepciones", "Rechazos"]
 elif opcion == "Porteros":
-    opciones = ["Salvadas", "Errores devenidos en gol", "Porteria invicta"]
+    opciones = ["Salvadas", "Penaltis salvados", "Porteria invicta"]
 else:
     opciones = []
 
