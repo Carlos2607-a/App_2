@@ -39,13 +39,13 @@ mapeo_opciones = {
     "Penaltis salvados": "Penalty saves",
 }
 
-if opcion == "Delantero":
+if opcion == "Delanteros":
     opciones = ["Goles", "Goles de Cabeza", "Asistencias"]
 elif opcion == "Mediocampista":
     opciones = ["Asistencias", "Oportunidades de gol creadas", "Entradas"]
-elif opcion == "Defensa":
+elif opcion == "Defensas":
     opciones = ["Entradas", "Intercepciones", "Rechazos"]
-elif opcion == "Portero":
+elif opcion == "Porteros":
     opciones = ["Salvadas", "Penaltis salvados", "Porteria invicta"]
 else:
     opciones = []
