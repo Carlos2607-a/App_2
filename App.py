@@ -2,8 +2,6 @@ import pandas as pd
 import unicodedata
 import streamlit as st
 
-
-# Configura la página para usar el modo ancho
 @st.cache
 def importar_datos(posicion):
     filename = f"df_{posicion}_medias.csv"
@@ -12,7 +10,7 @@ def importar_datos(posicion):
 
 st.set_page_config(layout="wide")
 
-st.write("Bienvenido a la aplicación de FutMatch!")
+st.write("¡Bienvenido a la aplicación de FutMatch!")
 
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
@@ -20,11 +18,12 @@ opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
 Data = importar_datos(opcion)
 
 # Obtén todas las ligas únicas en el dataframe
-ligas = Data['League'].unique().tolist()
+ligas = ["Todas las ligas"] + Data['League'].unique().tolist()
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 
-# Filtra el dataframe por la liga seleccionada
-Data = Data[Data['League'] == liga_seleccionada]
+# Filtra el dataframe por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
+if liga_seleccionada != "Todas las ligas":
+    Data = Data[Data['League'] == liga_seleccionada]
 
 # Mapeo de las opciones del usuario a los nombres de las columnas en el dataframe
 mapeo_opciones = {
@@ -40,13 +39,13 @@ mapeo_opciones = {
     "Penaltis salvados": "Penalty saves",
 }
 
-if posicion == "Delantero":
+if opcion == "Delantero":
     opciones = ["Goles", "Goles de Cabeza", "Asistencias"]
-elif posicion == "Mediocampista":
+elif opcion == "Mediocampista":
     opciones = ["Asistencias", "Oportunidades de gol creadas", "Entradas"]
-elif posicion == "Defensa":
+elif opcion == "Defensa":
     opciones = ["Entradas", "Intercepciones", "Rechazos"]
-elif posicion == "Portero":
+elif opcion == "Portero":
     opciones = ["Salvadas", "Penaltis salvados", "Porteria invicta"]
 else:
     opciones = []
