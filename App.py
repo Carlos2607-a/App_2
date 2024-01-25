@@ -1,4 +1,3 @@
-@st.cache
 def importar_datos():
     filename = "Data Posición/df_medias.csv"
     df = pd.read_csv(filename)
