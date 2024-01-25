@@ -28,7 +28,7 @@ if liga_seleccionada != "Todas las ligas":
 # Mapeo de las opciones del usuario a los nombres de las columnas en el dataframe
 mapeo_opciones = {
     "Goles": "Goals",
-    "Jugado con mas faltas recibidas": ",Was fouled",
+    "Jugador con mas faltas recibidas": "Was fouled",
     "Asistencias": "Assists",
     "Oportunidades de gol creadas": "Big chances created",
     "Entradas": "Tackles",
@@ -36,7 +36,7 @@ mapeo_opciones = {
     "Intercepciones": "Interceptions",
     "Salvadas": "Saves",
     "Porteria invicta": "Clean sheets",
-    "Penaltis salvados": "Penalties saved",
+    "Penaltis salvados": "Penalties saved"
 }
 
 if opcion == "Delanteros":
