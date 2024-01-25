@@ -13,9 +13,9 @@ st.set_page_config(layout="wide")
 st.write("¡Bienvenido a la aplicación de FutMatch!")
 
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
-opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
+opcioni = st.selectbox("¿Qué posición deseas consultar?", opciones)
 
-Data = importar_datos(opcion)
+Data = importar_datos(opcioni)
 
 # Obtén todas las ligas únicas en el dataframe
 ligas = ["Todas las ligas"] + Data['League'].unique().tolist()
