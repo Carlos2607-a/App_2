@@ -2,6 +2,7 @@ import pandas as pd
 import unicodedata
 import streamlit as st
 
+
 def importar_datos(posicion):
     filename = f"df_{posicion}_medias.csv"
     df = pd.read_csv(filename)
@@ -28,29 +29,18 @@ if liga_seleccionada != "Todas las ligas":
 caracteristicas_por_posicion = {
     "Delanteros": ["Big chances missed","Goals","Headed goals"],
     "Mediocampista": ["Interceptions", "Goals","Assists"],
-    "Defensas": ['Clearances','Penalty committed','Interceptions'],
+    "Defensas": ["Tackles", "Interceptions"],
     "Porteros": ["Aerial duels won %", "Penalties faced", "Saves"]
 }
 
-# Define los pesos para cada característica por posición
-pesos_por_posicion = {
-    "Delanteros": {"Big chances missed": -1, "Goals": 2, "Headed goals": 1.5},
-    "Mediocampista": {"Interceptions": -1, "Goals": 2, "Assists": 1.5},
-    "Defensas": {'Clearances':1,'Penalty committed':-0.5,'Interceptions':0.55},
-    "Porteros": {"Aerial duels won %": 1, "Penalties faced": -2, "Saves": 1.5}
-
-
 # Obtén las características para la posición seleccionada
 caracteristicas = caracteristicas_por_posicion[opcion]
-
-# Obtén los pesos para la posición seleccionada
-pesos = pesos_por_posicion[opcion]
 
 # Convierte las columnas a tipo numérico para evitar el error
 Data[caracteristicas] = Data[caracteristicas].apply(pd.to_numeric, errors='coerce')
 
 # Calcula el score total para cada jugador
-Data['Score total'] = sum(Data[caracteristica] * pesos[caracteristica] for caracteristica in caracteristicas)
+Data['Score total'] = Data[caracteristicas].sum(axis=1)
 
 # Ordena el dataframe por el score total y toma los primeros 10
 Data = Data.sort_values(by='Score total', ascending=False)
@@ -59,5 +49,4 @@ top_jugadores = Data.head(10)
 # Muestra los resultados
 st.write("Los 10 mejores jugadores según el score total son:")
 st.write(top_jugadores[['Name', 'Score total', 'League']])
-
 
