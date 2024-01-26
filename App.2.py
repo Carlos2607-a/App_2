@@ -28,8 +28,8 @@ if liga_seleccionada != "Todas las ligas":
 # Define las características para cada posición
 caracteristicas_por_posicion = {
     "Delanteros": ["Big chances missed","Goals","Headed goals"],
-    "Mediocampista": ["Set piece conversion", "Dribbled past","Assists"],
-    "Defensas": ["Tackles", "Interceptions", "Was fouled"],
+    "Mediocampista": ["Interceptions", "Goals","Assists"],
+    "Defensas": ["Tackles", "Interceptions"],
     "Porteros": ["Aerial duels won %", "Penalties faced", "Saves"]
 }
 
