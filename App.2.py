@@ -26,7 +26,7 @@ if liga_seleccionada != "Todas las ligas":
 
 # Define las características para cada posición con su respectivo peso
 caracteristicas_por_posicion = {
-    "Delanteros": {'Goals':5, 'Headed goals':5, 'Total shots':3, 'Assists':3, 'Big chances created':5, 'Was fouled':1,'Set piece conversion %':0.55, 'Accurate passes %':0.6, 'Successful dribbles %':0.5, 'Total duels won %':0.3,'Big chances missed':-0.15},
+    "Delanteros": {'Goals':5, 'Headed goals':5, 'Total shots':3, 'Assists':3, 'Big chances created':5, 'Was fouled':1,'Set piece conversion %':3, 'Accurate passes %':3, 'Successful dribbles %':0.5, 'Total duels won %':0.3,'Big chances missed':-0.15},
     "Mediocampista": {"Interceptions": 1, "Goals": 1, "Assists": 1},
     "Defensas": {"Tackles": 1, "Interceptions": 1},
     "Porteros": {"Aerial duels won %": 1, "Penalties faced": -1, "Saves": 1}
