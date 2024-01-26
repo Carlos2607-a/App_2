@@ -25,21 +25,7 @@ liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 if liga_seleccionada != "Todas las ligas":
     Data = Data[Data['League'] == liga_seleccionada]
 
-# Mapeo de las opciones del usuario a los nombres de las columnas en el dataframe
-mapeo_opciones = {
-    "Goles": "Goals",
-    "Jugador con mas faltas recibidas": "Was fouled",
-    "Asistencias": "Assists",
-    "Oportunidades de gol creadas": "Big chances created",
-    "Entradas": "Tackles",
-    "Rechazos": "Clearances",
-    "Intercepciones": "Interceptions",
-    "Salvadas": "Saves",
-    "Porteria invicta": "Clean sheets",
-    "Penaltis salvados": "Penalties saved"
-}
-
-# Define las 5 características para cada posición
+# Define las características para cada posición
 caracteristicas_por_posicion = {
     "Delanteros": ["Big chances missed","Goals","Headed goals"],
     "Mediocampista": ["Set piece conversion", "Dribbled past","Assists"],
@@ -64,8 +50,3 @@ top_jugadores = Data.head(10)
 st.write("Los 10 mejores jugadores según el score total son:")
 st.write(top_jugadores[['Name', 'Score total', 'League']])
 
-# Muestra el máximo en cada característica
-for caracteristica in caracteristicas:
-    max_jugador = Data.loc[Data[mapeo_opciones[caracteristica]].idxmax()]
-    st.write(f"El jugador con el máximo {caracteristica} es:")
-    st.write(max_jugador[['Name', mapeo_opciones[caracteristica], 'League']])
