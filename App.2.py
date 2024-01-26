@@ -40,7 +40,9 @@ for caracteristica in caracteristicas:
     Data_copy[caracteristica] = pd.to_numeric(Data_copy[caracteristica], errors='coerce')
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
-Data_copy['Score total'] = sum(Data_copy[caracteristica] * peso for caracteristica, peso in caracteristicas.items())
+# Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
+Data_copy['Score total'] = sum(Data_copy[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_copy[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
+
 
 # Ordena el Data_copyframe por el score total y toma los primeros 10
 Data_copy = Data_copy.sort_values(by='Score total', ascending=False)
