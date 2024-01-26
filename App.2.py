@@ -2,7 +2,7 @@ import pandas as pd
 import unicodedata
 import streamlit as st
 
-@st.cache
+
 def importar_datos(posicion):
     filename = f"df_{posicion}_medias.csv"
     df = pd.read_csv(filename)
