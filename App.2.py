@@ -1,5 +1,4 @@
 import pandas as pd
-import unicodedata
 import streamlit as st
 
 def importar_datos(posicion):
@@ -16,11 +15,12 @@ opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
 
 Data = importar_datos(opcion)
 Data_copy = Data.copy()
-# Obtén todas las ligas únicas en el Data_copyframe
+
+# Obtén todas las ligas únicas en el DataFrame
 ligas = ["Todas las ligas"] + Data_copy['League'].unique().tolist()
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 
-# Filtra el Data_copyframe por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
+# Filtra el DataFrame por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
 if liga_seleccionada != "Todas las ligas":
     Data_copy = Data_copy[Data_copy['League'] == liga_seleccionada]
 
@@ -40,16 +40,12 @@ for caracteristica in caracteristicas:
     Data_copy[caracteristica] = pd.to_numeric(Data_copy[caracteristica], errors='coerce')
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
-# Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
 Data_copy['Score total'] = sum(Data_copy[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_copy[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
 
-
-# Ordena el Data_copyframe por el score total y toma los primeros 10
+# Ordena el DataFrame por el score total y toma los primeros 10
 Data_copy = Data_copy.sort_values(by='Score total', ascending=False)
 top_jugadores = Data_copy.head(10)
 
 # Muestra los resultados
 st.write("Los 10 mejores jugadores según el score total son:")
 st.write(top_jugadores[['Name', 'Score total', 'League']])
-
-
