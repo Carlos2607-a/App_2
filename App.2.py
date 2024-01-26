@@ -28,7 +28,7 @@ if liga_seleccionada != "Todas las ligas":
 caracteristicas_por_posicion = {
     "Delanteros": ["Big chances missed","Goals","Headed goals"],
     "Mediocampista": ["Interceptions", "Goals","Assists"],
-    "Defensas": ['Clearances','Penalty committed','Interceptions','Red cards','Errors lead to goal','Total passes','Tackles','Yellow cards','Goals conceded outside the box','Goals conceded inside the box','Aerial duels won %','Total duels won %','Accurate passes %','Fouls','Dribbled past','Headed goals'],
+    "Defensas": ['Clearances','Penalty committed','Interceptions'],
     "Porteros": ["Aerial duels won %", "Penalties faced", "Saves"]
 }
 
