@@ -26,7 +26,7 @@ if liga_seleccionada != "Todas las ligas":
 
 # Define las características para cada posición con su respectivo peso
 caracteristicas_por_posicion = {
-    "Delanteros": {'Goals':2.55, 'Headed goals':1.2, 'Total shots':1, 'Assists':1, 'Big chances created':2.6, 'Was fouled':1,'Set piece conversion %':0.55, 'Accurate passes %':0.6, 'Successful dribbles %':0.5, 'Total duels won %':0.3,'Big chances missed':-0.25},
+    "Delanteros": {'Goals':3, 'Headed goals':1, 'Total shots':1.4, 'Assists':1.2, 'Big chances created':2, 'Was fouled':1,'Set piece conversion %':0.35, 'Accurate passes %':0.6, 'Successful dribbles %':0.5, 'Total duels won %':0.3,'Big chances missed':-0.25},
     "Mediocampista": {"Interceptions": 1, "Goals": 1, "Assists": 1},
     "Defensas": {"Tackles": 1, "Interceptions": 1},
     "Porteros": {"Aerial duels won %": 1, "Penalties faced": -1, "Saves": 1}
@@ -40,14 +40,12 @@ for caracteristica in caracteristicas:
     Data_copy[caracteristica] = pd.to_numeric(Data_copy[caracteristica], errors='coerce')
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
-Data_copy['Puntuacion_Total_positiva'] = sum(Data_copy[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0)
-Data_copy['Puntuacion_Total_negativas'] = sum(Data_copy[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
-Data_copy['PUNTUACION FINAL'] = Data_copy['Puntuacion_Total_positiva'] - Data_copy['Puntuacion_Total_negativas']
+Data_copy['Score total'] = sum(Data_copy[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_copy[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
 
 # Ordena el DataFrame por el score total y toma los primeros 10
-Data_copy = Data_copy.sort_values(by='PUNTUACION FINAL', ascending=False)
+Data_copy = Data_copy.sort_values(by='Score total', ascending=False)
 top_jugadores = Data_copy.head(10)
 
 # Muestra los resultados
 st.write("Los 10 mejores jugadores según el score total son:")
-st.write(top_jugadores[['Name', 'PUNTUACION FINAL', 'League']])
+st.write(top_jugadores[['Name', 'Score total', 'League']])
