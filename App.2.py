@@ -1,5 +1,5 @@
 import pandas as pd
-import unicodeData_copy
+import unicodedata
 import streamlit as st
 
 def importar_datos(posicion):
