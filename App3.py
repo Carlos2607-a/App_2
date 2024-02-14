@@ -5,17 +5,7 @@ def importar_datos(posicion, liga_seleccionada):
     filename = f"df_{posicion}_medias.csv"
     df = pd.read_csv(filename)
     df['Position'] = posicion
-    if liga_seleccionada != "Todas las ligas":
-        df = df[df['League'] == liga_seleccionada]
     return df
-
-st.set_page_config(layout="wide")
-
-st.write("¡Bienvenido a la aplicación de FutMatch!")
-
-# Define las posiciones y cuántos jugadores quieres para cada posición
-opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
-num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
 
 # Importa los datos y obtén todas las ligas únicas en el dataframe
 Data = pd.concat([importar_datos(opcion, "Todas las ligas") for opcion in opciones])
@@ -27,6 +17,11 @@ Data_copy['League'] = Data_copy['League'].dropna().astype(str).reset_index(drop=
 # Ahora deberías poder obtener y ordenar las ligas únicas sin problemas
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
+
+# Filtra los datos por la liga seleccionada
+if liga_seleccionada != "Todas las ligas":
+    Data = Data[Data['League'] == liga_seleccionada]
+    Data_copy = Data.copy()
 
 # Define las características para cada posición con su respectivo peso
 caracteristicas_por_posicion =  {
