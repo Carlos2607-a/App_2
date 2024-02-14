@@ -57,7 +57,7 @@ for posicion, caracteristicas in caracteristicas_por_posicion.items():
         Data_copy.loc[Data_copy['Position'] == posicion, 'Score total'] = Data_posicion['Score total']
 
 # Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
-mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
+mejores_jugadores = pd.concat([Data_copy[(Data_copy['Position'] == posicion) & (Data_copy['League'] == liga_seleccionada)].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
 
 # Muestra los resultados
 st.write("Los mejores jugadores según el score total son:")
