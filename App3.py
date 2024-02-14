@@ -7,6 +7,10 @@ def importar_datos(posicion, liga_seleccionada):
     df['Position'] = posicion
     return df
 
+# Define las posiciones y cuántos jugadores quieres para cada posición
+opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
+num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
+
 # Importa los datos y obtén todas las ligas únicas en el dataframe
 Data = pd.concat([importar_datos(opcion, "Todas las ligas") for opcion in opciones])
 Data_copy = Data.copy()
