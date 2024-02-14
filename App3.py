@@ -1,22 +1,22 @@
 import pandas as pd
 import streamlit as st
 
-def importar_datos():
-    posiciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
-    dfs = []
-    for posicion in posiciones:
-        filename = f"df_{posicion}_medias.csv"
-        df = pd.read_csv(filename)
-        df['Position'] = posicion
-        dfs.append(df)
-    return pd.concat(dfs)
+def importar_datos(posicion):
+    filename = f"df_{posicion}_medias.csv"
+    df = pd.read_csv(filename)
+    df['Position'] = posicion
+    return df
 
 st.set_page_config(layout="wide")
 
 st.write("¡Bienvenido a la aplicación de FutMatch!")
 
-# Obtén todas las ligas únicas en el dataframe
-Data = importar_datos()
+# Define las posiciones y cuántos jugadores quieres para cada posición
+opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
+num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
+
+# Importa los datos y obtén todas las ligas únicas en el dataframe
+Data = pd.concat([importar_datos(opcion) for opcion in opciones])
 Data_copy = Data.copy()
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
@@ -34,25 +34,18 @@ caracteristicas_por_posicion =  {
 }
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
-resultados = []
 for posicion, caracteristicas in caracteristicas_por_posicion.items():
     Data_posicion = Data_copy[Data_copy['Position'] == posicion].copy()
     for caracteristica in caracteristicas:
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
-    resultados.append(Data_posicion)
-
-Data_copy = pd.concat(resultados)
+    Data_copy[Data_copy['Position'] == posicion] = Data_posicion
 
 # Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
-mejores_jugadores = pd.concat([
-    Data_copy[Data_copy['Position'] == 'Delanteros'].sort_values(by='Score total', ascending=False).head(4),
-    Data_copy[Data_copy['Position'] == 'Mediocampista'].sort_values(by='Score total', ascending=False).head(4),
-    Data_copy[Data_copy['Position'] == 'Defensas'].sort_values(by='Score total', ascending=False).head(3),
-    Data_copy[Data_copy['Position'] == 'Porteros'].sort_values(by='Score total', ascending=False).head(2)
-])
+mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
 
 # Muestra los resultados
-st.write("Los 13 mejores jugadores según el score total son:")
-st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Posicion']])
+st.write("Los mejores jugadores según el score total son:")
+st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Position']])
+
 
