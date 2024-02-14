@@ -18,6 +18,11 @@ num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros":
 # Importa los datos y obtén todas las ligas únicas en el dataframe
 Data = pd.concat([importar_datos(opcion) for opcion in opciones])
 Data_copy = Data.copy()
+
+# Elimina los valores NaN y convierte todos los valores a strings
+Data_copy['League'] = Data_copy['League'].dropna().astype(str)
+
+# Ahora deberías poder obtener y ordenar las ligas únicas sin problemas
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 
@@ -47,5 +52,4 @@ mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort
 # Muestra los resultados
 st.write("Los mejores jugadores según el score total son:")
 st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Position']])
-
 
