@@ -20,7 +20,7 @@ Data = pd.concat([importar_datos(opcion) for opcion in opciones])
 Data_copy = Data.copy()
 
 # Elimina los valores NaN y convierte todos los valores a strings
-Data_copy['League'] = Data_copy['League'].dropna().astype(str)
+Data_copy['League'] = Data_copy['League'].dropna().astype(str).reset_index(drop=True)
 
 # Ahora deberías poder obtener y ordenar las ligas únicas sin problemas
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
