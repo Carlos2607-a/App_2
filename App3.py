@@ -8,28 +8,21 @@ def importar_datos(posicion):
     return df
 
 st.set_page_config(layout="wide")
-
 st.write("¡Bienvenido a la aplicación de FutMatch!")
-
 # Define las posiciones y cuántos jugadores quieres para cada posición
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
-
 # Importa los datos y obtén todas las ligas únicas en el dataframe
 Data = pd.concat([importar_datos(opcion) for opcion in opciones])
 Data_copy = Data.copy()
-
 # Elimina los valores NaN y convierte todos los valores a strings
 Data_copy['League'] = Data_copy['League'].dropna().astype(str).reset_index(drop=True)
-
 # Ahora deberías poder obtener y ordenar las ligas únicas sin problemas
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
-
 # Filtra el dataframe por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
 if liga_seleccionada != "Todas las ligas":
     Data_copy = Data_copy[Data_copy['League'] == liga_seleccionada]
-
 # Define las características para cada posición con su respectivo peso
 caracteristicas_por_posicion =  {
     "Delanteros": {'Goals':2.55, 'Headed goals':1.2, 'Total shots':1, 'Assists':1, 'Big chances created':2.6, 'Was fouled':1,'Set piece conversion %':0.55, 'Accurate passes %':0.6, 'Successful dribbles %':0.5, 'Total duels won %':0.3,'Big chances missed':-0.25},
@@ -37,8 +30,8 @@ caracteristicas_por_posicion =  {
     "Defensas": {'Penalty committed': -0.5,'Interceptions': 0.55,'Errors lead to goal': -0.65,'Total passes': 0.65,'Tackles': 1,'Goals conceded inside the box': -0.4,'Aerial duels won %': 0.9,'Total duels won %': 1,'Accurate passes %': 0.5,'Fouls': -0.4,'Dribbled past': -0.6},
     "Porteros": {'Penalties saved': 0.5,'Saves': 2,'Errors lead to goal': -1,'Clean sheets': 3,'Aerial duels won %': 0.75,'Total duels won %': 1.5,'Penalty committed': -0.5,'Goals conceded inside the box': 1,'Goals conceded outside the box': -0.75,'Total passes': 0.5,'Accurate long balls %': 0.5,'Accurate passes %': 0.5}
 }
-
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
+mejores_jugadores = pd.DataFrame()
 for posicion, caracteristicas in caracteristicas_por_posicion.items():
     # Filtra el dataframe por la liga seleccionada y la posición actual en el bucle
     if liga_seleccionada != "Todas las ligas":
@@ -50,15 +43,9 @@ for posicion, caracteristicas in caracteristicas_por_posicion.items():
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica].fillna(0) * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica].fillna(0) * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
     
-    # Actualiza el 'Score total' en Data_copy usando tanto la posición como la liga
-    if liga_seleccionada != "Todas las ligas":
-        Data_copy.loc[(Data_copy['Position'] == posicion) & (Data_copy['League'] == liga_seleccionada), 'Score total'] = Data_posicion['Score total']
-    else:
-        Data_copy.loc[Data_copy['Position'] == posicion, 'Score total'] = Data_posicion['Score total']
-
-# Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
-mejores_jugadores = pd.concat([Data_copy[(Data_copy['Position'] == posicion) & (Data_copy['League'] == liga_seleccionada)].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
-
+    # Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
+    mejores_jugadores_posicion = Data_posicion.sort_values(by='Score total', ascending=False).head(num_jugadores[posicion])
+    mejores_jugadores = pd.concat([mejores_jugadores, mejores_jugadores_posicion])
 # Muestra los resultados
 st.write("Los mejores jugadores según el score total son:")
 st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Position']])
