@@ -1,10 +1,12 @@
 import pandas as pd
 import streamlit as st
 
-def importar_datos(posicion):
+def importar_datos(posicion, liga_seleccionada):
     filename = f"df_{posicion}_medias.csv"
     df = pd.read_csv(filename)
     df['Position'] = posicion
+    if liga_seleccionada != "Todas las ligas":
+        df = df[df['League'] == liga_seleccionada]
     return df
 
 st.set_page_config(layout="wide")
@@ -16,7 +18,7 @@ opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
 
 # Importa los datos y obtén todas las ligas únicas en el dataframe
-Data = pd.concat([importar_datos(opcion) for opcion in opciones])
+Data = pd.concat([importar_datos(opcion, "Todas las ligas") for opcion in opciones])
 Data_copy = Data.copy()
 
 # Elimina los valores NaN y convierte todos los valores a strings
@@ -25,10 +27,6 @@ Data_copy['League'] = Data_copy['League'].dropna().astype(str).reset_index(drop=
 # Ahora deberías poder obtener y ordenar las ligas únicas sin problemas
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
-
-# Filtra el dataframe por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
-if liga_seleccionada != "Todas las ligas":
-    Data_copy = Data_copy[Data_copy['League'] == liga_seleccionada]
 
 # Define las características para cada posición con su respectivo peso
 caracteristicas_por_posicion =  {
@@ -40,7 +38,7 @@ caracteristicas_por_posicion =  {
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
 for posicion, caracteristicas in caracteristicas_por_posicion.items():
-    Data_posicion = Data_copy[Data_copy['Position'] == posicion].copy()
+    Data_posicion = importar_datos(posicion, liga_seleccionada)
     for caracteristica in caracteristicas:
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica].fillna(0) * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica].fillna(0) * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
@@ -52,3 +50,4 @@ mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort
 # Muestra los resultados
 st.write("Los mejores jugadores según el score total son:")
 st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Position']])
+
