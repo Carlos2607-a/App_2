@@ -49,7 +49,12 @@ for posicion, caracteristicas in caracteristicas_por_posicion.items():
     for caracteristica in caracteristicas:
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica].fillna(0) * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica].fillna(0) * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
-    Data_copy.loc[Data_copy['Position'] == posicion, 'Score total'] = Data_posicion['Score total']
+    
+    # Actualiza el 'Score total' en Data_copy usando tanto la posición como la liga
+    if liga_seleccionada != "Todas las ligas":
+        Data_copy.loc[(Data_copy['Position'] == posicion) & (Data_copy['League'] == liga_seleccionada), 'Score total'] = Data_posicion['Score total']
+    else:
+        Data_copy.loc[Data_copy['Position'] == posicion, 'Score total'] = Data_posicion['Score total']
 
 # Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
 mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
