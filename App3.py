@@ -40,7 +40,12 @@ caracteristicas_por_posicion =  {
 
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
 for posicion, caracteristicas in caracteristicas_por_posicion.items():
-    Data_posicion = Data_copy[Data_copy['Position'] == posicion].copy()
+    # Filtra el dataframe por la liga seleccionada y la posición actual en el bucle
+    if liga_seleccionada != "Todas las ligas":
+        Data_posicion = Data_copy[(Data_copy['Position'] == posicion) & (Data_copy['League'] == liga_seleccionada)].copy()
+    else:
+        Data_posicion = Data_copy[Data_copy['Position'] == posicion].copy()
+
     for caracteristica in caracteristicas:
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica].fillna(0) * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica].fillna(0) * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
