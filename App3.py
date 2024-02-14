@@ -7,7 +7,7 @@ def importar_datos():
     for posicion in posiciones:
         filename = f"df_{posicion}_medias.csv"
         df = pd.read_csv(filename)
-        df['Posicion'] = posicion
+        df['Position'] = posicion
         dfs.append(df)
     return pd.concat(dfs)
 
@@ -36,7 +36,7 @@ caracteristicas_por_posicion =  {
 # Calcula el score total para cada jugador teniendo en cuenta el peso de cada característica
 resultados = []
 for posicion, caracteristicas in caracteristicas_por_posicion.items():
-    Data_posicion = Data_copy[Data_copy['Posicion'] == posicion].copy()
+    Data_posicion = Data_copy[Data_copy['Position'] == posicion].copy()
     for caracteristica in caracteristicas:
         Data_posicion[caracteristica] = pd.to_numeric(Data_posicion[caracteristica], errors='coerce')
     Data_posicion['Score total'] = sum(Data_posicion[caracteristica] * peso for caracteristica, peso in caracteristicas.items() if peso > 0) - sum(Data_posicion[caracteristica] * abs(peso) for caracteristica, peso in caracteristicas.items() if peso < 0)
@@ -46,10 +46,10 @@ Data_copy = pd.concat(resultados)
 
 # Ordena el dataframe por el score total y selecciona los mejores jugadores por posición
 mejores_jugadores = pd.concat([
-    Data_copy[Data_copy['Posicion'] == 'Delanteros'].sort_values(by='Score total', ascending=False).head(4),
-    Data_copy[Data_copy['Posicion'] == 'Mediocampista'].sort_values(by='Score total', ascending=False).head(4),
-    Data_copy[Data_copy['Posicion'] == 'Defensas'].sort_values(by='Score total', ascending=False).head(3),
-    Data_copy[Data_copy['Posicion'] == 'Porteros'].sort_values(by='Score total', ascending=False).head(2)
+    Data_copy[Data_copy['Position'] == 'Delanteros'].sort_values(by='Score total', ascending=False).head(4),
+    Data_copy[Data_copy['Position'] == 'Mediocampista'].sort_values(by='Score total', ascending=False).head(4),
+    Data_copy[Data_copy['Position'] == 'Defensas'].sort_values(by='Score total', ascending=False).head(3),
+    Data_copy[Data_copy['Position'] == 'Porteros'].sort_values(by='Score total', ascending=False).head(2)
 ])
 
 # Muestra los resultados
