@@ -7,6 +7,10 @@ def importar_datos(posicion, liga_seleccionada):
     df['Position'] = posicion
     return df
 
+st.set_page_config(layout="wide")
+
+st.write("¡Bienvenido a la aplicación de FutMatch!")
+
 # Define las posiciones y cuántos jugadores quieres para cada posición
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}

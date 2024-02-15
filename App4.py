@@ -6,6 +6,9 @@ def importar_datos(posicion, liga_seleccionada):
     df = pd.read_csv(filename)
     df['Position'] = posicion
     return df
+st.set_page_config(layout="wide")
+
+st.write("¡Bienvenido a la aplicación de FutMatch!")
 
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}
