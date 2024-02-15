@@ -16,8 +16,8 @@ Data = pd.concat([importar_datos(opcion, "Todas las ligas") for opcion in opcion
 Data = Data[Data['Age Range'] == 1]
 
 Data_copy = Data.copy()
-Data_copy['League'] = Data_copy['League'].dropna().astype(str).reset_index(drop=True)
-
+# Convierte todos los valores a strings y luego obtén las ligas únicas
+Data_copy['League'] = Data_copy['League'].astype(str)
 ligas = ["Todas las ligas"] + sorted(Data_copy['League'].unique().tolist())
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 
