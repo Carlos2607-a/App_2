@@ -9,7 +9,7 @@ def importar_datos(posicion, liga_seleccionada):
 
 st.set_page_config(layout="wide")
 
-st.write("¡Bienvenido a la aplicación de FutMatch!")
+st.write("¡Bienvenido a la aplicación de Dream Team")
 
 # Define las posiciones y cuántos jugadores quieres para cada posición
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]

@@ -8,7 +8,7 @@ def importar_datos(posicion, liga_seleccionada):
     return df
 st.set_page_config(layout="wide")
 
-st.write("¡Bienvenido a la aplicación de FutMatch!")
+st.write("¡Bienvenido a la aplicación de Young Talents")
 
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 num_jugadores = {"Delanteros": 3, "Mediocampista": 4, "Defensas": 3, "Porteros": 1}

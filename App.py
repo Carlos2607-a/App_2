@@ -10,7 +10,7 @@ def importar_datos(posicion):
 
 st.set_page_config(layout="wide")
 
-st.write("¡Bienvenido a la aplicación de FutMatch!")
+st.write("¡Bienvenido a la aplicación The Best")
 
 opciones = ["Delanteros", "Mediocampista", "Defensas", "Porteros"]
 opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
