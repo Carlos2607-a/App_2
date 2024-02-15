@@ -41,5 +41,5 @@ for posicion, caracteristicas in caracteristicas_por_posicion.items():
 
 mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort_values(by='Score total', ascending=False).head(num_jugadores[posicion]) for posicion in opciones])
 
-st.write("El mejor equipo de futuras estrellas es:")
+st.write("El mejor equipo de jovenes estrellas es:")
 st.write(mejores_jugadores[['Name', 'Score total', 'League', 'Position']])
