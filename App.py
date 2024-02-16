@@ -57,4 +57,5 @@ if opcion:
     max_jugador = Data.loc[Data[columna_df].idxmax()]
     st.write(max_jugador[['Name', columna_df, 'League']])
 
-st.dataframe(Data, column_config={"Name": {"width": "large"}, "League": {"width": "medium"}})
+st.write(max_jugador[['Name', columna_df, 'League']], width=800)
+
