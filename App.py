@@ -18,7 +18,7 @@ opcion = st.selectbox("¿Qué posición deseas consultar?", opciones)
 Data = importar_datos(opcion)
 
 # Obtén todas las ligas únicas en el dataframe
-ligas = ["Todas las ligas"] + Data['League'].unique().tolist()
+ligas = ["Todas las ligas"] + Data['League'].dropna().unique().tolist()
 liga_seleccionada = st.selectbox("¿Qué liga deseas ver?", ligas)
 
 # Filtra el dataframe por la liga seleccionada, a menos que el usuario haya seleccionado "Todas las ligas"
