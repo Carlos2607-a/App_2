@@ -56,3 +56,5 @@ if opcion:
     columna_df = mapeo_opciones[opcion]
     max_jugador = Data.loc[Data[columna_df].idxmax()]
     st.write(max_jugador[['Name', columna_df, 'League']])
+
+st.dataframe(Data, column_config={"Name": {"width": "large"}, "League": {"width": "medium"}})
