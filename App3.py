@@ -52,5 +52,5 @@ mejores_jugadores = pd.concat([Data_copy[Data_copy['Position'] == posicion].sort
 
 # Muestra los resultados
 st.write("El mejor equipo de estrellas es:")
-st.write(mejores_jugadores[['Name', 'League', 'Position']], width=1500)
+st.write(mejores_jugadores[['Name', 'League', 'Position']], width=3000)
 
