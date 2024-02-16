@@ -55,7 +55,7 @@ opcion = st.selectbox("¿Qué característica deseas ver?", opciones)
 if opcion:
     columna_df = mapeo_opciones[opcion]
     max_jugador = Data.loc[Data[columna_df].idxmax()]
-    st.write(max_jugador[['Name', columna_df, 'League']], truncate=False)
+    st.write(max_jugador[['Name', columna_df, 'League']], width=1500)
 
 
 
