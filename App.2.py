@@ -47,4 +47,4 @@ top_jugadores = Data_copy.head(10)
 
 # Muestra los resultados
 st.write("Los 10 mejores jugadores según el score total son:")
-st.write(top_jugadores[['Name', 'League']], width=800)
+st.write(top_jugadores[['Name', 'League']], width=1500)
